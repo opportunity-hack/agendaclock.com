@@ -3,14 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBS Setup Guide - Overlay Your Meeting Agenda on Video | AgendaClock</title>
+    <title>OBS Setup: Overlay Your Meeting Agenda on Video</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Step-by-step guide to overlaying your AgendaClock meeting timeline on your webcam with OBS Studio and Virtual Camera — works in Zoom, Google Meet, and Microsoft Teams.">
+    <meta name="description" content="Step-by-step: overlay your AgendaClock meeting agenda on your webcam with OBS Studio and Virtual Camera. Works in Zoom, Google Meet, and Microsoft Teams.">
     <meta name="keywords" content="OBS overlay, meeting agenda overlay, OBS virtual camera, chroma key, browser source, Zoom overlay, meeting timer overlay">
     <meta name="author" content="AgendaClock">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://agendaclock.com/obs-setup">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://agendaclock.com/obs-setup">
+    <meta property="og:title" content="OBS Setup: Overlay Your Meeting Agenda on Video">
+    <meta property="og:description" content="Step-by-step: overlay your AgendaClock meeting agenda on your webcam with OBS Studio and Virtual Camera. Works in Zoom, Google Meet, and Microsoft Teams.">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="OBS Setup: Overlay Your Meeting Agenda on Video">
+    <meta property="twitter:description" content="Step-by-step: overlay your AgendaClock meeting agenda on your webcam with OBS Studio and Virtual Camera. Works in Zoom, Google Meet, and Microsoft Teams.">
 
     <!-- Favicon links -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -18,6 +27,54 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
     <% include partials/analytics %>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    [
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "Overlay Your Meeting Agenda on Video with OBS",
+        "description": "Step-by-step guide to overlaying your AgendaClock meeting timeline on your webcam with OBS Studio and Virtual Camera - works in Zoom, Google Meet, and Microsoft Teams.",
+        "step": [
+            { "@type": "HowToStep", "name": "Create a public meeting timeline", "text": "Create your meeting in AgendaClock and mark it Public link in the editor - OBS loads the page without a login. Copy the OBS URL from the Share panel." },
+            { "@type": "HowToStep", "name": "Add your webcam and the overlay in OBS", "text": "In OBS, add a Video Capture Device source for your webcam, then add a Browser source above it with the OBS URL. Set Width 1920, Height 1080. The transparent=1 parameter renders a real transparent background, so no chroma key is needed." },
+            { "@type": "HowToStep", "name": "Start the Virtual Camera", "text": "Click Start Virtual Camera in OBS (bottom-right, under Controls)." },
+            { "@type": "HowToStep", "name": "Select OBS Virtual Camera in your meeting app", "text": "In Zoom, Google Meet, or Microsoft Teams, open the camera picker and select OBS Virtual Camera. Your agenda overlay now stays on your video for the whole call." }
+        ]
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I overlay my meeting agenda on Zoom, Google Meet, or Teams with OBS?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Build your AgendaClock timeline, mark the meeting Public, and copy the OBS URL from the Share panel. In OBS, add your webcam as a Video Capture Device, then add a Browser source above it with that URL at 1920x1080 - transparent=1 in the URL gives the overlay a real transparent background. Click Start Virtual Camera, then pick OBS Virtual Camera in your meeting app's camera settings."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need a chroma key for the OBS overlay?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. The Browser Source path uses transparent=1, which renders the timeline with a real alpha channel - no filters needed. Chroma key is only for the alternative Window Capture path, where the timeline page uses a solid blue (#0047BB) background that a Chroma Key filter removes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why is OBS Virtual Camera not showing up in Zoom, Teams, or Meet?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Start the Virtual Camera in OBS before opening your meeting app's camera picker, and restart the meeting app if it was already open. On macOS, Microsoft Teams occasionally hides virtual cameras because of code-signing restrictions - the OBS forum thread linked in the setup guide above tracks the current workaround."
+                }
+            }
+        ]
+    }
+    ]
+    </script>
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -177,14 +234,39 @@
             </table>
         </div>
 
+        <div class="step">
+            <h2>Frequently Asked Questions</h2>
+
+            <div>
+                <h3>How do I overlay my meeting agenda on Zoom, Google Meet, or Teams with OBS?</h3>
+                <p>Build your AgendaClock timeline, mark the meeting Public, and copy the OBS URL from the Share panel. In OBS, add your webcam as a Video Capture Device, then add a Browser source above it with that URL at 1920x1080 - transparent=1 in the URL gives the overlay a real transparent background. Click Start Virtual Camera, then pick OBS Virtual Camera in your meeting app's camera settings.</p>
+            </div>
+
+            <div>
+                <h3>Do I need a chroma key for the OBS overlay?</h3>
+                <p>No. The Browser Source path uses transparent=1, which renders the timeline with a real alpha channel - no filters needed. Chroma key is only for the alternative Window Capture path, where the timeline page uses a solid blue (#0047BB) background that a Chroma Key filter removes.</p>
+            </div>
+
+            <div>
+                <h3>Why is OBS Virtual Camera not showing up in Zoom, Teams, or Meet?</h3>
+                <p>Start the Virtual Camera in OBS before opening your meeting app's camera picker, and restart the meeting app if it was already open. On macOS, Microsoft Teams occasionally hides virtual cameras because of code-signing restrictions - the OBS forum thread linked in the setup guide above tracks the current workaround.</p>
+            </div>
+        </div>
+
         <div class="cta">
             <a href="/">🚀 Create your meeting timeline — it's free</a>
         </div>
 
         <p style="text-align: center; margin-top: 24px; color: #6c757d;">
             More resources: <a href="/meeting-agenda-timer">free meeting agenda timer</a> ·
-            <a href="/timed-agenda">timed agenda templates</a> ·
-            <a href="/meeting-length-effectiveness">how long should a meeting be?</a>
+            <a href="/timed-agenda">timed agenda template</a> ·
+            <a href="/meeting-length-effectiveness">how long should a meeting be?</a> ·
+            <a href="/effective-meetings">how to have more effective meetings</a> ·
+            <a href="/productive-meeting-tips">productive meeting tips</a> ·
+            <a href="/managing-talkative-participants">managing talkative participants</a> ·
+            <a href="/ai-changing-meetings">how AI is changing meetings</a> ·
+            <a href="/meeting-introductions-antipattern">the introductions anti-pattern</a> ·
+            <a href="/">AgendaClock home</a>
         </p>
     </div>
 </body>
