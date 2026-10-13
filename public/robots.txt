@@ -6,6 +6,7 @@ Allow: /productive-meeting-tips
 Allow: /meeting-agenda-timer
 Allow: /meeting-length-effectiveness
 Allow: /ai-changing-meetings
+Allow: /meeting-introductions-antipattern
 Allow: /timed-agenda
 Allow: /obs-setup
 

@@ -43,6 +43,28 @@ app.use((req, res, next) => {
 // Routes
 app.use('/auth', route_auth);
 app.use('/meeting', route_meeting);
+// SEO canonicalization: content pages live at slash-less URLs. Trailing-slash
+// duplicates returned 200 (splitting ranking signals in Search Console), and
+// the retired timed-agenda slug 404'd. 301 both to the canonical URL.
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  const suffix = req.url.slice(req.path.length);
+  if (req.path === '/timed-agenda-templates-time-boxing-guide') {
+    return res.redirect(301, '/timed-agenda' + suffix);
+  }
+  if (
+    req.path.length > 1 &&
+    req.path.endsWith('/') &&
+    !req.path.startsWith('/meeting/') &&
+    !req.path.startsWith('/auth/') &&
+    !req.path.startsWith('/socket.io') &&
+    !req.path.includes('.')
+  ) {
+    return res.redirect(301, req.path.slice(0, -1) + suffix);
+  }
+  next();
+});
+
 app.use('/', route_index);
 
 
