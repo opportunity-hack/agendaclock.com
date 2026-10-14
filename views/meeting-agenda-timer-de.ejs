@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda-Timer für Meetings: Countdown für jedes Thema</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Kostenloser Meeting-Agenda-Timer mit visuellem Countdown für jeden Tagesordnungspunkt. Für Zoom, Microsoft Teams, Google Meet und OBS. Ohne Werbung, ohne Premium-Version.">
+    <meta name="keywords" content="meeting agenda timer, agenda timer, besprechungsagenda, meeting timer deutsch, countdown timer meeting, tagesordnung timer">
+    <meta name="author" content="AgendaClock">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agendaclock.com/de">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:title" content="Agenda-Timer für Meetings: Countdown für jedes Thema">
+    <meta property="og:description" content="Kostenloser Meeting-Agenda-Timer mit visuellem Countdown für jeden Tagesordnungspunkt. Für Zoom, Microsoft Teams, Google Meet und OBS. Ohne Werbung, ohne Premium-Version.">
+    <meta property="og:image" content="https://cdn.ohack.dev/agendaclock/6_squares_in_a_zoom_call_where.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://agendaclock.com/de">
+    <meta property="twitter:title" content="Agenda-Timer für Meetings: Countdown für jedes Thema">
+    <meta property="twitter:description" content="Kostenloser Meeting-Agenda-Timer mit visuellem Countdown für jeden Tagesordnungspunkt. Für Zoom, Microsoft Teams, Google Meet und OBS. Ohne Werbung, ohne Premium-Version.">
+    <meta property="twitter:image" content="https://cdn.ohack.dev/agendaclock/6_squares_in_a_zoom_call_where.jpeg">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://agendaclock.com/de">
+
+    <!-- Language alternates (test cluster with /meeting-agenda-timer) -->
+    <link rel="alternate" hreflang="en" href="https://agendaclock.com/meeting-agenda-timer">
+    <link rel="alternate" hreflang="de" href="https://agendaclock.com/de">
+    <link rel="alternate" hreflang="ja" href="https://agendaclock.com/ja">
+    <link rel="alternate" hreflang="en-sg" href="https://agendaclock.com/sg">
+    <link rel="alternate" hreflang="x-default" href="https://agendaclock.com/meeting-agenda-timer">
+
+    <!-- Favicon links -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="shortcut icon" href="/favicon-32x32.png">
+
+    <% include partials/analytics %>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+[
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "AgendaClock Meeting-Agenda-Timer",
+        "description": "Kostenloser Meeting-Agenda-Timer mit visuellem Countdown für jeden Tagesordnungspunkt. Für Zoom, Microsoft Teams, Google Meet und OBS. Ohne Werbung, ohne Premium-Version.",
+        "url": "https://agendaclock.com/de",
+        "inLanguage": "de",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "AgendaClock"
+        }
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Was ist ein Meeting-Agenda-Timer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ein Meeting-Agenda-Timer ist ein visuelles Tool, das jedem Punkt Ihrer Tagesordnung einen Countdown-Timer zuweist. Statt dass eine Person unangenehm auf die Uhr schaut und unterbricht, sehen alle genau, wie viel Zeit für das aktuelle Thema noch bleibt. Der Timer übernimmt die Durchsetzung, damit Sie es nicht müssen."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Wie nutze ich einen Meeting-Timer mit Zoom oder Google Meet?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Öffnen Sie AgendaClock in einem Browserfenster, erstellen Sie Ihr Meeting mit Themen und Zeitzuweisungen, und teilen Sie dann Ihren Bildschirm - oder blenden Sie den Timer per OBS Virtual Camera über Ihrem Videobild ein. Der blaue Chroma-Key-Hintergrund macht das Einbetten mit OBS einfach, ohne dass der Timer den ganzen Bildschirm einnimmt."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Ist AgendaClock kostenlos?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ja. AgendaClock ist komplett kostenlos - ohne Werbung, ohne Premium-Version, ohne versteckte Kosten. Melden Sie sich mit Google an und erstellen Sie sofort Meeting-Zeitleisten."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Was unterscheidet AgendaClock von einem einfachen Countdown-Timer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ein einfacher Countdown-Timer zeigt Ihnen eine einzige herunterzählende Zahl. AgendaClock zeigt Ihnen eine visuelle Zeitleiste Ihres gesamten Meetings - jedes Thema, jeder Referent, jede Zeitzuweisung - als grafische Darstellung. Sie sehen nicht nur die Restzeit des aktuellen Themas, sondern die Form des ganzen Meetings auf einen Blick."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Funktioniert ein Meeting-Agenda-Timer mit Microsoft Teams?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ja. Teilen Sie Ihren Bildschirm in Teams, um die Zeitleiste zu zeigen, oder blenden Sie den Timer per OBS Virtual Camera über Ihrem Videobild ein, damit er ohne Bildschirmfreigabe sichtbar bleibt. Derselbe Aufbau funktioniert in Zoom und Google Meet."
+                }
+            }
+        ]
+    }
+]
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            margin: 0;
+            padding: 20px 0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(26, 115, 232, 0.9), rgba(13, 71, 161, 0.9)),
+                        url('https://cdn.ohack.dev/agendaclock/6_squares_in_a_zoom_call_where.jpeg');
+            background-size: cover;
+            background-position: center;
+            padding: 60px 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8em;
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin: 0 0 30px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .hero-cta {
+            background: #fff;
+            color: #1a73e8;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        .hero-cta:hover {
+            background: #f0f0f0;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .content h2 {
+            color: #1a73e8;
+            font-size: 2em;
+            margin: 40px 0 20px 0;
+            border-bottom: 3px solid #0d47a1;
+            padding-bottom: 10px;
+        }
+
+        .content h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+        }
+
+        .content p {
+            color: #555;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+
+        .quote-block {
+            background: #f0f4ff;
+            border-left: 4px solid #1a73e8;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #333;
+        }
+
+        .quote-block cite {
+            display: block;
+            margin-top: 10px;
+            font-style: normal;
+            font-weight: 600;
+            color: #1a73e8;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-top: 4px solid #1a73e8;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            color: #1a73e8;
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+        }
+
+        .feature-card p {
+            color: #666;
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .how-it-works {
+            background: #f0f4ff;
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 12px;
+        }
+
+        .how-it-works h2 {
+            color: #1a73e8;
+            border: none;
+            margin: 0 0 25px 0;
+            text-align: center;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .step-number {
+            background: #1a73e8;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+        .step-content p {
+            margin: 0;
+            color: #666;
+        }
+
+        .faq-section {
+            margin: 40px 0;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            margin: 15px 0;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #1a73e8;
+        }
+
+        .faq-item h3 {
+            color: #1a73e8;
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .faq-item p {
+            color: #555;
+            margin: 0;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: white;
+            border: none;
+            margin: 0 0 20px 0;
+            font-size: 2.2em;
+        }
+
+        .cta-section p {
+            color: white;
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        .cta-button {
+            background: white;
+            color: #4285f4;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .footer-nav {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-nav h3 {
+            color: #333;
+            margin: 0 0 15px 0;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: #4285f4;
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: #4285f4;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .footer-nav {
+                padding: 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .how-it-works {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>Kostenloser Agenda-Timer für Zoom, Teams &amp; Google Meet</h1>
+            <p>Geben Sie jedem Tagesordnungspunkt eine feste Minutenzahl und zeigen Sie allen Teilnehmenden genau, wie viel Zeit noch bleibt. Kostenlos für Zoom, Teams, Google Meet und OBS.</p>
+            <a href="/auth/google" class="hero-cta">Meeting-Timer erstellen - kostenlos</a>
+        </div>
+
+        <div class="content">
+            <div class="quote-block">
+                "Sie schulden es Ihrem Unternehmen und allen Beteiligten, Teilnehmende anzusprechen, die ohne klares Ziel und Ergebnis in ein Meeting kommen."
+                <cite>- Jede Person, die schon einmal in einem 60-Minuten-Meeting saß, das in 15 erledigt gewesen wäre</cite>
+            </div>
+
+            <h2>Das Problem mit Meetings</h2>
+            <p>Rechnen wir nach: 8 Personen sitzen 60 Minuten in einem Raum. Das sind 8 Stunden menschlicher Arbeitszeit. Läuft das Meeting 20 Minuten länger, weil niemand auf die Tagesordnung achtet, verbrennen Sie knapp 3 Stunden kollektiver Produktivität für Themen, die man auf später hätte vertagen können.</p>
+            <p>Die Lösung sind nicht weniger Meetings, sondern <em>strukturierte</em> Meetings. Jede Person in einem Meeting sollte entweder Wert erhalten oder Wert beitragen. Wenn keines von beiden zutrifft, stimmt etwas nicht.</p>
+
+            <h2>Was AgendaClock macht</h2>
+            <p>AgendaClock ist eine visuelle Meeting-Zeitleiste mit Countdown-Timern für jeden Tagesordnungspunkt. Sie erstellen Ihre Agenda, weisen jedem Thema eine Zeit zu, und das Tool zeigt in Echtzeit eine grafische Übersicht, die alle Teilnehmenden sehen können.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Visuelle Zeitleiste</h3>
+                    <p>Ihr gesamtes Meeting als grafische Zeitleiste. Nicht nur eine herunterzählende Zahl, sondern die <em>Form</em> Ihres Meetings auf einen Blick. Jedes Thema, jeder Referent, jede Minute erfasst.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Time-Boxing pro Thema</h3>
+                    <p>Weisen Sie jedem Tagesordnungspunkt konkrete Minuten zu. Wenn der Timer sichtbar ist, regulieren sich die Teilnehmenden selbst. Sie müssen nicht die unangenehme Person sein, die unterbricht - die Uhr übernimmt das.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>OBS Virtual Camera</h3>
+                    <p>Blauer Chroma-Key-Hintergrund (Hex: 0047BB), gebaut für die Integration mit <a href="https://obsproject.com/" target="_blank" style="color: #1a73e8;">OBS Studio</a>. Blenden Sie den Timer direkt in Ihr Videobild in Zoom, Teams oder Google Meet ein, ohne den ganzen Bildschirm zu teilen - siehe die <a href="/obs-setup" style="color: #1a73e8;">Schritt-für-Schritt-Anleitung für OBS</a> (auf Englisch).</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Zeitzonen-Support</h3>
+                    <p>Ihr Team sitzt in Berlin, München und Wien - oder verteilt über Europa und die USA? Stellen Sie die Zeitzone einmal ein. Die Zeitleiste berechnet alles relativ zum tatsächlichen Start Ihres Meetings, egal wo Ihr Team sitzt.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Referenten-Zuordnung</h3>
+                    <p>Weisen Sie Themen konkreten Personen zu. Wenn ihr Abschnitt dran ist, ist es ihre Zeit. Kein „Wer stellt diesen Teil noch einmal vor?“ mehr.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Kostenlos. Ohne Haken.</h3>
+                    <p>Keine Premium-Version. Keine Werbung. Kein „Upgrade, um Countdown-Timer freizuschalten.“ Melden Sie sich mit Google an und erstellen Sie Ihr Meeting. Das ist alles.</p>
+                </div>
+            </div>
+
+            <div class="how-it-works">
+                <h2>So funktioniert es</h2>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Meeting erstellen</h3>
+                        <p>Fügen Sie Ihre Themen hinzu, weisen Sie jedem eine Zeit zu, stellen Sie Ihre Zeitzone ein und ordnen Sie optional Referenten zu. Dauert etwa 2 Minuten.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Zeitleiste teilen oder einblenden</h3>
+                        <p>Teilen Sie die Zeitleiste per Bildschirmfreigabe in Ihrem Videocall, oder blenden Sie sie per OBS Virtual Camera über Ihrem Videobild ein - für einen aufgeräumteren Eindruck.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Meeting durchführen</h3>
+                        <p>Die Countdown-Timer verfolgen jedes Thema in Echtzeit. Alle sehen die verbleibende Zeit. Diskussionen bleiben fokussiert, weil die Struktur sichtbar ist.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Warum visuelle Timer funktionieren</h2>
+            <p>Manche Menschen reden mehr als andere. Das ist kein Charakterfehler, sondern ein Moderationsproblem. Ohne sichtbare Begrenzung füllen einige Stimmen die Leere, während andere verstummen. Ein sichtbarer Timer verlagert die Begrenzung nach außen: Nicht <em>Sie</em> unterbrechen jemanden - es ist die Uhr.</p>
+            <p>Nutzen Sie Parkplatz-Listen und Aufgaben, um Diskussionen weiterzuverfolgen, die mehr Raum brauchen. Vergeben Sie Zeiten für Sprint-Demos und Stand-ups, bis Sie die Zeit nicht mehr streng messen müssen.</p>
+
+            <div class="faq-section">
+                <h2>Häufige Fragen</h2>
+
+                <div class="faq-item">
+                    <h3>Was ist ein Meeting-Agenda-Timer?</h3>
+                    <p>Ein Meeting-Agenda-Timer ist ein visuelles Tool, das jedem Punkt Ihrer Tagesordnung einen Countdown-Timer zuweist. Statt dass eine Person unangenehm auf die Uhr schaut und unterbricht, sehen alle genau, wie viel Zeit für das aktuelle Thema noch bleibt. Der Timer übernimmt die Durchsetzung, damit Sie es nicht müssen.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Wie nutze ich einen Meeting-Timer mit Zoom oder Google Meet?</h3>
+                    <p>Öffnen Sie AgendaClock in einem Browserfenster, erstellen Sie Ihr Meeting mit Themen und Zeitzuweisungen, und teilen Sie dann Ihren Bildschirm - oder blenden Sie den Timer per OBS Virtual Camera über Ihrem Videobild ein. Der blaue Chroma-Key-Hintergrund macht das Einbetten mit OBS einfach, ohne dass der Timer den ganzen Bildschirm einnimmt.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Ist AgendaClock kostenlos?</h3>
+                    <p>Ja. AgendaClock ist komplett kostenlos - ohne Werbung, ohne Premium-Version, ohne versteckte Kosten. Melden Sie sich mit Google an und erstellen Sie sofort Meeting-Zeitleisten.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Was unterscheidet AgendaClock von einem einfachen Countdown-Timer?</h3>
+                    <p>Ein einfacher Countdown-Timer zeigt Ihnen eine einzige herunterzählende Zahl. AgendaClock zeigt Ihnen eine visuelle Zeitleiste Ihres gesamten Meetings - jedes Thema, jeder Referent, jede Zeitzuweisung - als grafische Darstellung. Sie sehen nicht nur die Restzeit des aktuellen Themas, sondern die Form des ganzen Meetings auf einen Blick.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Funktioniert ein Meeting-Agenda-Timer mit Microsoft Teams?</h3>
+                    <p>Ja. Teilen Sie Ihren Bildschirm in Teams, um die Zeitleiste zu zeigen, oder blenden Sie den Timer per OBS Virtual Camera über Ihrem Videobild ein, damit er ohne Bildschirmfreigabe sichtbar bleibt. Derselbe Aufbau funktioniert in Zoom und Google Meet.</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>Verschwenden Sie keine Meeting-Zeit mehr</h2>
+                <p>Erstellen Sie Ihren ersten Meeting-Agenda-Timer in unter 2 Minuten. Kostenlos, ohne Kreditkarte, ohne Demo-Anfrageformular.</p>
+                <a href="/auth/google" class="cta-button">Kostenlos starten</a>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <h3>Weitere Ressourcen für bessere Meetings</h3>
+            <div class="nav-links">
+                <a href="/effective-meetings">How to Have More Effective Meetings</a>
+                <a href="/managing-talkative-participants">Managing Talkative Participants</a>
+                <a href="/productive-meeting-tips">15 Productive Meeting Tips</a>
+                <a href="/meeting-length-effectiveness">Meeting Length vs. Effectiveness</a>
+                <a href="/ai-changing-meetings">How AI Is Changing Meetings</a>
+                <a href="/timed-agenda">Timed Agenda Templates</a>
+                <a href="/obs-setup">OBS Overlay Setup Guide</a>
+                <a href="/meeting-agenda-timer">Meeting Agenda Timer (English)</a>
+                <a href="/ja">会議アジェンダタイマー（日本語）</a>
+                <a href="/sg">Meeting Agenda Timer for Singapore</a>
+                <a href="/">Zur Startseite</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

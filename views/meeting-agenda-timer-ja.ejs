@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会議アジェンダタイマー：議題ごとのカウントダウン表示</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="議題ごとにカウントダウンタイマーを表示する無料の会議アジェンダタイマー。Zoom、Microsoft Teams、Google Meet、OBSに対応。広告なし、有料プランなし。">
+    <meta name="keywords" content="meeting agenda timer, 会議 タイマー, アジェンダ タイマー, 会議 時間管理, オンライン会議 タイマー, OBS 会議タイマー">
+    <meta name="author" content="AgendaClock">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agendaclock.com/ja">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:title" content="会議アジェンダタイマー：議題ごとのカウントダウン表示">
+    <meta property="og:description" content="議題ごとにカウントダウンタイマーを表示する無料の会議アジェンダタイマー。Zoom、Microsoft Teams、Google Meet、OBSに対応。広告なし、有料プランなし。">
+    <meta property="og:image" content="https://cdn.ohack.dev/agendaclock/6_squares_in_a_zoom_call_where.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://agendaclock.com/ja">
+    <meta property="twitter:title" content="会議アジェンダタイマー：議題ごとのカウントダウン表示">
+    <meta property="twitter:description" content="議題ごとにカウントダウンタイマーを表示する無料の会議アジェンダタイマー。Zoom、Microsoft Teams、Google Meet、OBSに対応。広告なし、有料プランなし。">
+    <meta property="twitter:image" content="https://cdn.ohack.dev/agendaclock/6_squares_in_a_zoom_call_where.jpeg">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://agendaclock.com/ja">
+
+    <!-- Language alternates (test cluster with /meeting-agenda-timer) -->
+    <link rel="alternate" hreflang="en" href="https://agendaclock.com/meeting-agenda-timer">
+    <link rel="alternate" hreflang="de" href="https://agendaclock.com/de">
+    <link rel="alternate" hreflang="ja" href="https://agendaclock.com/ja">
+    <link rel="alternate" hreflang="en-sg" href="https://agendaclock.com/sg">
+    <link rel="alternate" hreflang="x-default" href="https://agendaclock.com/meeting-agenda-timer">
+
+    <!-- Favicon links -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="shortcut icon" href="/favicon-32x32.png">
+
+    <% include partials/analytics %>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+[
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "AgendaClock 会議アジェンダタイマー",
+        "description": "議題ごとにカウントダウンタイマーを表示する無料の会議アジェンダタイマー。Zoom、Microsoft Teams、Google Meet、OBSに対応。広告なし、有料プランなし。",
+        "url": "https://agendaclock.com/ja",
+        "inLanguage": "ja",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "AgendaClock"
+        }
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "会議アジェンダタイマーとは何ですか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "会議アジェンダタイマーは、アジェンダの各議題にカウントダウンタイマーを割り当てる視覚的なツールです。一人が時計を気にして割り込む代わりに、全員が現在の議題の残り時間を正確に把握できます。時間の管理はタイマーが担うので、あなたが担う必要はありません。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "ZoomやGoogle Meetで会議タイマーを使うにはどうすればいいですか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ブラウザでAgendaClockを開き、議題と時間配分を設定して会議を作成し、画面を共有するか、OBSバーチャルカメラで映像にタイマーを重ねます。青いクロマキー背景により、OBSでの合成が簡単で、タイマーが画面全体を占領することもありません。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "AgendaClockは無料ですか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい。AgendaClockは完全に無料で、広告も、有料プランも、隠れた費用もありません。Googleでログインすれば、すぐに会議タイムラインの作成を始められます。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "普通のカウントダウンタイマーと何が違いますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "普通のカウントダウンタイマーは、減っていく数字を1つ表示するだけです。AgendaClockは、すべての議題、発表者、時間配分を含む会議全体の視覚的なタイムラインをグラフィカルに表示します。現在の議題の残り時間だけでなく、会議全体の形が一目でわかります。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Microsoft Teamsでも会議アジェンダタイマーを使えますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい。Teamsで画面を共有してタイムラインを表示するか、OBSバーチャルカメラで映像にタイマーを重ねれば、画面共有なしでもタイマーを表示し続けられます。同じ設定はZoomやGoogle Meetでも使えます。"
+                }
+            }
+        ]
+    }
+]
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            margin: 0;
+            padding: 20px 0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(26, 115, 232, 0.9), rgba(13, 71, 161, 0.9)),
+                        url('https://cdn.ohack.dev/agendaclock/6_squares_in_a_zoom_call_where.jpeg');
+            background-size: cover;
+            background-position: center;
+            padding: 60px 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8em;
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin: 0 0 30px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .hero-cta {
+            background: #fff;
+            color: #1a73e8;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        .hero-cta:hover {
+            background: #f0f0f0;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .content h2 {
+            color: #1a73e8;
+            font-size: 2em;
+            margin: 40px 0 20px 0;
+            border-bottom: 3px solid #0d47a1;
+            padding-bottom: 10px;
+        }
+
+        .content h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+        }
+
+        .content p {
+            color: #555;
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+
+        .quote-block {
+            background: #f0f4ff;
+            border-left: 4px solid #1a73e8;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #333;
+        }
+
+        .quote-block cite {
+            display: block;
+            margin-top: 10px;
+            font-style: normal;
+            font-weight: 600;
+            color: #1a73e8;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-top: 4px solid #1a73e8;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            color: #1a73e8;
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+        }
+
+        .feature-card p {
+            color: #666;
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .how-it-works {
+            background: #f0f4ff;
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 12px;
+        }
+
+        .how-it-works h2 {
+            color: #1a73e8;
+            border: none;
+            margin: 0 0 25px 0;
+            text-align: center;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .step-number {
+            background: #1a73e8;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+        .step-content p {
+            margin: 0;
+            color: #666;
+        }
+
+        .faq-section {
+            margin: 40px 0;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            margin: 15px 0;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #1a73e8;
+        }
+
+        .faq-item h3 {
+            color: #1a73e8;
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .faq-item p {
+            color: #555;
+            margin: 0;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            padding: 40px;
+            margin: 40px 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: white;
+            border: none;
+            margin: 0 0 20px 0;
+            font-size: 2.2em;
+        }
+
+        .cta-section p {
+            color: white;
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        .cta-button {
+            background: white;
+            color: #4285f4;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .footer-nav {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-nav h3 {
+            color: #333;
+            margin: 0 0 15px 0;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: #4285f4;
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: #4285f4;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .footer-nav {
+                padding: 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .how-it-works {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>Zoom・Teams・Google Meet対応 無料の会議アジェンダタイマー</h1>
+            <p>議題ごとに時間を設定し、会議の参加者全員に残り時間を表示します。Zoom、Teams、Google Meet、OBSで無料で使えます。</p>
+            <a href="/auth/google" class="hero-cta">会議タイマーを無料で作成</a>
+        </div>
+
+        <div class="content">
+            <div class="quote-block">
+                "目的と成果が曖昧な会議には、はっきりと指摘する責任が会社にも参加者にもあります。"
+                <cite>- 15分で終わるはずの60分会議に出席したことがあるすべての人</cite>
+            </div>
+
+            <h2>会議の問題点</h2>
+            <p>計算してみましょう。8人が60分の会議に出席すると、合計8時間分の労働時間になります。議題を誰も管理せず会議が20分延びれば、後回しにできたはずの話題のために、約3時間分の生産性が失われます。</p>
+            <p>解決策は会議を減らすことではなく、<em>構造化された</em>会議にすることです。会議の参加者は全員、価値を受け取るか、価値を提供するかのどちらかであるべきです。どちらでもないなら、何かが壊れています。</p>
+
+            <h2>AgendaClockでできること</h2>
+            <p>AgendaClockは、議題ごとにカウントダウンタイマーを備えた視覚的な会議タイムラインです。アジェンダを作成し、各議題に時間を割り当てると、会議の全員が見られるリアルタイムのグラフィカル表示が生成されます。</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>ビジュアルタイムライン</h3>
+                    <p>会議全体をグラフィカルなタイムラインとして表示します。単にカウントダウンする数字ではなく、会議の<em>形</em>が一目でわかります。すべての議題、発表者、時間を把握できます。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>議題ごとのタイムボックス</h3>
+                    <p>議題ごとに具体的な時間を割り当てます。タイマーが見えていると、参加者は自分で発言時間を調整するようになります。割り込んで注意する役目は、時計が担ってくれます。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>OBSバーチャルカメラ</h3>
+                    <p><a href="https://obsproject.com/" target="_blank" style="color: #1a73e8;">OBS Studio</a>連携用に設計された青いクロマキー背景（16進数：0047BB）。画面全体を共有しなくても、Zoom、Teams、Google Meetの映像にタイマーを直接重ねられます。詳しくは<a href="/obs-setup" style="color: #1a73e8;">OBSセットアップガイド</a>（英語）をご覧ください。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>タイムゾーン対応</h3>
+                    <p>東京、大阪、そして海外拠点のメンバーと働いていても、タイムゾーンは一度設定するだけです。タイムラインは、チームがどこにいても、会議の実際の開始時刻を基準にすべてを計算します。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>発表者の割り当て</h3>
+                    <p>議題を担当者に割り当てます。その人の担当時間になれば、その人の時間です。「この部分は誰が発表するんでしたっけ？」という混乱がなくなります。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>無料。条件なし。</h3>
+                    <p>有料プランはありません。広告もありません。「カウントダウンタイマーのロック解除はアップグレードを」ということもありません。Googleでログインして会議を作成するだけです。</p>
+                </div>
+            </div>
+
+            <div class="how-it-works">
+                <h2>使い方</h2>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>会議を作成する</h3>
+                        <p>議題を追加し、それぞれに時間を割り当て、タイムゾーンを設定し、必要に応じて発表者を割り当てます。約2分で完了します。</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>タイムラインを共有・表示する</h3>
+                        <p>ビデオ通話でタイムラインを画面共有するか、OBSバーチャルカメラで映像に重ねて表示すると、よりすっきりした見た目になります。</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>会議を実施する</h3>
+                        <p>カウントダウンタイマーが各議題をリアルタイムで追跡します。全員が残り時間を見られるため、構造が見えることで議論が集中します。</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>視覚的タイマーが効く理由</h2>
+            <p>よく話す人もいれば、そうでない人もいます。それは性格の問題ではなく、ファシリテーションの問題です。目に見える制約がないと、一部の声が沈黙を埋め、他の声は静かになってしまいます。目に見えるタイマーは制約を外に出します。発言を止めるのは<em>あなた</em>ではなく、時計なのです。</p>
+            <p>さらに時間が必要な議論は、パーキングロット（駐車場方式）とアクションアイテムでフォローアップしましょう。スプリントのデモやスタンドアップに時間配分を使い、厳密な計測が不要になるまで続けてください。</p>
+
+            <div class="faq-section">
+                <h2>よくある質問</h2>
+
+                <div class="faq-item">
+                    <h3>会議アジェンダタイマーとは何ですか？</h3>
+                    <p>会議アジェンダタイマーは、アジェンダの各議題にカウントダウンタイマーを割り当てる視覚的なツールです。一人が時計を気にして割り込む代わりに、全員が現在の議題の残り時間を正確に把握できます。時間の管理はタイマーが担うので、あなたが担う必要はありません。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>ZoomやGoogle Meetで会議タイマーを使うにはどうすればいいですか？</h3>
+                    <p>ブラウザでAgendaClockを開き、議題と時間配分を設定して会議を作成し、画面を共有するか、OBSバーチャルカメラで映像にタイマーを重ねます。青いクロマキー背景により、OBSでの合成が簡単で、タイマーが画面全体を占領することもありません。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>AgendaClockは無料ですか？</h3>
+                    <p>はい。AgendaClockは完全に無料で、広告も、有料プランも、隠れた費用もありません。Googleでログインすれば、すぐに会議タイムラインの作成を始められます。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>普通のカウントダウンタイマーと何が違いますか？</h3>
+                    <p>普通のカウントダウンタイマーは、減っていく数字を1つ表示するだけです。AgendaClockは、すべての議題、発表者、時間配分を含む会議全体の視覚的なタイムラインをグラフィカルに表示します。現在の議題の残り時間だけでなく、会議全体の形が一目でわかります。</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Microsoft Teamsでも会議アジェンダタイマーを使えますか？</h3>
+                    <p>はい。Teamsで画面を共有してタイムラインを表示するか、OBSバーチャルカメラで映像にタイマーを重ねれば、画面共有なしでもタイマーを表示し続けられます。同じ設定はZoomやGoogle Meetでも使えます。</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2>会議の無駄な時間をなくそう</h2>
+                <p>最初の会議アジェンダタイマーは2分以内に作成できます。無料で、クレジットカードも、デモ依頼フォームも不要です。</p>
+                <a href="/auth/google" class="cta-button">無料で始める</a>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <h3>会議に役立つその他のリソース</h3>
+            <div class="nav-links">
+                <a href="/effective-meetings">How to Have More Effective Meetings</a>
+                <a href="/managing-talkative-participants">Managing Talkative Participants</a>
+                <a href="/productive-meeting-tips">15 Productive Meeting Tips</a>
+                <a href="/meeting-length-effectiveness">Meeting Length vs. Effectiveness</a>
+                <a href="/ai-changing-meetings">How AI Is Changing Meetings</a>
+                <a href="/timed-agenda">Timed Agenda Templates</a>
+                <a href="/obs-setup">OBS Overlay Setup Guide</a>
+                <a href="/meeting-agenda-timer">Meeting Agenda Timer (English)</a>
+                <a href="/de">Meeting-Agenda-Timer auf Deutsch</a>
+                <a href="/sg">Meeting Agenda Timer for Singapore</a>
+                <a href="/">ホームに戻る</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
