@@ -48,6 +48,19 @@ router.get('/obs-setup', (req, res) => {
     res.render('obs_setup');
 });
 
+// Localized test landing pages (hreflang cluster with /meeting-agenda-timer)
+router.get('/de', (req, res) => {
+    res.render('meeting-agenda-timer-de');
+});
+
+router.get('/ja', (req, res) => {
+    res.render('meeting-agenda-timer-ja');
+});
+
+router.get('/sg', (req, res) => {
+    res.render('meeting-agenda-timer-sg');
+});
+
 // SEO Files
 router.get('/sitemap.xml', (req, res) => {
     res.type('application/xml');

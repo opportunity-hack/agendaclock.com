@@ -9,6 +9,9 @@ Allow: /ai-changing-meetings
 Allow: /meeting-introductions-antipattern
 Allow: /timed-agenda
 Allow: /obs-setup
+Allow: /de
+Allow: /ja
+Allow: /sg
 
 # Disallow authenticated user areas (auth pages served with X-Robots-Tag: noindex)
 Disallow: /meeting/
