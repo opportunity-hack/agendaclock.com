@@ -8,7 +8,7 @@
     <!-- Homepage -->
     <url>
         <loc>https://agendaclock.com/</loc>
-        <lastmod>2026-10-19</lastmod>
+        <lastmod>2026-10-22</lastmod>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -63,7 +63,7 @@
 
     <url>
         <loc>https://agendaclock.com/meeting-introductions-antipattern</loc>
-        <lastmod>2026-10-13</lastmod>
+        <lastmod>2026-10-22</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
     </url>
