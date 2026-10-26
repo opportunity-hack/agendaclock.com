@@ -46,7 +46,7 @@
         "headline": "How Long Should a Meeting Be? Lengths by Type, With Data",
         "description": "Most meetings should be 25 minutes, not 60. See the data on meeting length vs effectiveness, plus optimal lengths by type: standup, 1:1, decision, workshop.",
         "datePublished": "2026-04-05",
-        "dateModified": "2026-10-13",
+        "dateModified": "2026-10-26",
         "author": {
             "@type": "Organization",
             "name": "AgendaClock"
@@ -104,6 +104,22 @@
                 "acceptedAnswer": {
                     "@type": "Answer",
                     "text": "Yes. Schedule 25-minute or 50-minute meetings instead of 30 or 60. The extra 5-10 minutes gives people a buffer to take notes, process what was discussed, use the restroom, and mentally transition before the next meeting. Back-to-back meetings without breaks destroy productivity."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How long does a meeting last?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A typical meeting lasts as long as it was booked for: 30 or 60 minutes, because those are the calendar defaults. Meetings rarely end early on their own - discussion expands to fill the slot. That is why the booked length matters: the same standup booked for 15 minutes finishes in 15, and a decision meeting booked for 25 minutes forces the pre-work that makes 25 minutes enough."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I make meetings shorter?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Change the default first: book 25 minutes instead of 30 and 50 instead of 60. Then give every topic a time slot with a timed agenda, cancel status meetings in favor of async updates, cut the invite list to people who decide or contribute, share context documents before the meeting instead of presenting them live, and end with decisions and owners so no follow-up meeting is needed."
                 }
             }
         ]
@@ -244,6 +260,36 @@
             margin: 0;
             font-size: 1.1em;
             opacity: 0.9;
+        }
+
+        .length-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1.05em;
+        }
+
+        .length-table th {
+            background: #e67e22;
+            color: white;
+            text-align: left;
+            padding: 12px 15px;
+        }
+
+        .length-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+
+        .length-table tr:nth-child(even) td {
+            background: #f8f9fa;
+        }
+
+        .shorter-rules li {
+            color: #555;
+            font-size: 1.1em;
+            margin: 12px 0;
         }
 
         .duration-guide {
@@ -494,6 +540,44 @@
                     </div>
                 </div>
 
+                <h2>How Long Does a Typical Meeting Last?</h2>
+                <p>A typical meeting lasts <strong>30 to 60 minutes</strong> - not because the topic needs it, but because that is what was booked. Meetings rarely end early on their own: discussion expands to fill the slot, so the booked length effectively <em>is</em> the meeting length. A standup booked for 30 minutes takes 30; the same standup booked for 15 finishes in 15.</p>
+                <p>That gap between the calendar default and what the work actually needs is the whole problem. Here is the typical booking next to the length that actually fits each meeting type:</p>
+
+                <table class="length-table">
+                    <tr>
+                        <th>Meeting type</th>
+                        <th>Typically booked</th>
+                        <th>Length that fits</th>
+                    </tr>
+                    <tr>
+                        <td>Daily standup</td>
+                        <td>30 minutes</td>
+                        <td>5-15 minutes</td>
+                    </tr>
+                    <tr>
+                        <td>Decision meeting</td>
+                        <td>60 minutes</td>
+                        <td>15-25 minutes</td>
+                    </tr>
+                    <tr>
+                        <td>1:1 check-in</td>
+                        <td>30 minutes</td>
+                        <td>25 minutes</td>
+                    </tr>
+                    <tr>
+                        <td>Brainstorm / workshop</td>
+                        <td>60 minutes</td>
+                        <td>45-50 minutes</td>
+                    </tr>
+                    <tr>
+                        <td>Sprint retrospective</td>
+                        <td>60 minutes</td>
+                        <td>25-50 minutes</td>
+                    </tr>
+                </table>
+                <p>So how long does a meeting last? As long as you let it. Shortening the booking is the fix - the agenda and the conversation adjust to the slot you give them.</p>
+
                 <h2>Optimal Meeting Lengths by Type</h2>
                 <p>Not every meeting needs the same amount of time. The mistake is treating them all the same. A standup and a strategy session have fundamentally different structures - they should have fundamentally different durations.</p>
 
@@ -579,6 +663,18 @@
                 </ul>
                 <p>If a meeting survives that test, run it tight: these <a href="/productive-meeting-tips" style="color: #1a73e8;">productive meeting tips</a> cover the facilitation habits that keep a shorter meeting from feeling rushed.</p>
 
+                <h2>How to Make Meetings Shorter (Without Making Them Worse)</h2>
+                <p>Shorter meetings are not rushed meetings. They are meetings where the time was decided on purpose instead of inherited from a dropdown. Seven rules that work:</p>
+                <ol class="shorter-rules">
+                    <li><strong>Change the default.</strong> Book 25 minutes instead of 30, and 50 instead of 60. Most of the win is this one change.</li>
+                    <li><strong>Give every topic a time slot.</strong> A <a href="/timed-agenda" style="color: #1a73e8;">timed agenda</a> makes the limit visible, so no single topic silently eats the meeting.</li>
+                    <li><strong>Cancel the status meeting.</strong> Updates go in Slack, email, or a shared doc. Reserve live time for decisions and discussion.</li>
+                    <li><strong>Send the context before, not during.</strong> Reading documents together is the most expensive way to read. Pre-reads turn a 60-minute meeting into a 25-minute one.</li>
+                    <li><strong>Cut the invite list.</strong> If someone is only there to listen, send them the notes. Fewer people also means less time lost to <a href="/managing-talkative-participants" style="color: #1a73e8;">one voice dominating the room</a>.</li>
+                    <li><strong>Put a countdown on the screen.</strong> A visible <a href="/meeting-agenda-timer" style="color: #1a73e8;">meeting agenda timer</a> lets the structure enforce the limit, so the facilitator does not have to interrupt.</li>
+                    <li><strong>End with decisions and owners.</strong> A meeting that ends without a decision schedules its own sequel. Name the decision, the owner, and the deadline in the last two minutes.</li>
+                </ol>
+
                 <div class="faq-section">
                     <h2>Frequently Asked Questions</h2>
 
@@ -605,6 +701,16 @@
                     <div class="faq-item">
                         <h3>Should I schedule 25-minute meetings instead of 30?</h3>
                         <p>Yes. Schedule 25-minute or 50-minute meetings instead of 30 or 60. The extra 5-10 minutes gives people a buffer for notes, restroom breaks, and mental transitions. Back-to-back meetings without breaks destroy productivity.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>How long does a meeting last?</h3>
+                        <p>A typical meeting lasts as long as it was booked for: 30 or 60 minutes, because those are the calendar defaults. Meetings rarely end early on their own - discussion expands to fill the slot. That is why the booked length matters: the same standup booked for 15 minutes finishes in 15, and a decision meeting booked for 25 minutes forces the pre-work that makes 25 minutes enough.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>How do I make meetings shorter?</h3>
+                        <p>Change the default first: book 25 minutes instead of 30 and 50 instead of 60. Then give every topic a time slot with a timed agenda, cancel status meetings in favor of async updates, cut the invite list to people who decide or contribute, share context documents before the meeting instead of presenting them live, and end with decisions and owners so no follow-up meeting is needed.</p>
                     </div>
                 </div>
 
