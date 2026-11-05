@@ -2,6 +2,39 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 
+// Cache headers for near-static SEO pages. The 12 landing pages + sitemap /
+// robots render identically for anonymous and logged-in users (no
+// user- or date-dependent content - verified in the views), so a public
+// cache is safe. Repeat visits within the hour skip the revalidation round
+// trip (TTFB 0.27-0.58s) and download zero bytes for HTML. Homepage is
+// excluded: it redirects authenticated users to /meeting/. /meeting/* and
+// /auth/* live in separate routers and are untouched.
+const CACHEABLE_PATHS = new Set([
+    '/effective-meetings',
+    '/managing-talkative-participants',
+    '/productive-meeting-tips',
+    '/meeting-agenda-timer',
+    '/meeting-length-effectiveness',
+    '/ai-changing-meetings',
+    '/meeting-introductions-antipattern',
+    '/timed-agenda',
+    '/obs-setup',
+    '/de',
+    '/ja',
+    '/sg',
+    '/sitemap.xml',
+    '/robots.txt',
+]);
+router.use((req, res, next) => {
+    if ((req.method === 'GET' || req.method === 'HEAD') && CACHEABLE_PATHS.has(req.path)) {
+        // Content changes only on deploy (weekly at most); a visitor who
+        // loaded a page in the last hour may see the pre-deploy copy for
+        // up to 1h after a merge.
+        res.set('Cache-Control', 'public, max-age=3600');
+    }
+    next();
+});
+
 router.get('/', (req, res) => {
     // Check if user is authenticated
     if (req.isAuthenticated()) {
