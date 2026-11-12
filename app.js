@@ -15,6 +15,21 @@ const app = express();
 // Compression middleware
 app.use(compression());
 
+// Host canonicalization: the canonical host is the apex (agendaclock.com) -
+// every canonical, sitemap, and robots URL uses it. www.agendaclock.com had
+// no DNS record at all (confirmed NXDOMAIN via Google Public DNS, Nov 12,
+// 2026), so www visitors get a DNS error today. Once the www DNS record and
+// the Fly cert exist, www requests 301 here to the apex instead of serving
+// the site on a second host. GET/HEAD only, like the trailing-slash
+// canonicalization below; query strings preserved via originalUrl.
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  if (req.hostname === 'www.agendaclock.com') {
+    return res.redirect(301, 'https://agendaclock.com' + req.originalUrl);
+  }
+  next();
+});
+
 // Session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
