@@ -21,7 +21,6 @@ const CACHEABLE_PATHS = new Set([
     '/obs-setup',
     '/de',
     '/ja',
-    '/sg',
     '/sitemap.xml',
     '/robots.txt',
 ]);
@@ -88,10 +87,6 @@ router.get('/de', (req, res) => {
 
 router.get('/ja', (req, res) => {
     res.render('meeting-agenda-timer-ja');
-});
-
-router.get('/sg', (req, res) => {
-    res.render('meeting-agenda-timer-sg');
 });
 
 // SEO Files
