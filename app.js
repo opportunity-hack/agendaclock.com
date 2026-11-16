@@ -52,6 +52,11 @@ app.use((req, res, next) => {
   if (req.path === '/timed-agenda-templates-time-boxing-guide') {
     return res.redirect(301, '/timed-agenda' + suffix);
   }
+  // /sg removed Nov 2026 (30-day i18n judge: ~1 click/month, Singapore
+  // audience reads English). Preserve its ranking signal + any links.
+  if (req.path === '/sg' || req.path === '/sg/') {
+    return res.redirect(301, '/meeting-agenda-timer' + suffix);
+  }
   if (
     req.path.length > 1 &&
     req.path.endsWith('/') &&
