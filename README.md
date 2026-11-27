@@ -87,3 +87,31 @@ npm install
 docker build -t meeting-timeline .
 docker-compose up
 ```
+
+# MCP server
+
+AgendaClock speaks [MCP](https://modelcontextprotocol.io/) (Streamable HTTP) at
+`POST https://agendaclock.com/mcp`, so an AI assistant can manage your meeting
+timelines for you.
+
+1. Sign in at https://agendaclock.com, then open **MCP access** (or
+   https://agendaclock.com/mcp/tokens).
+2. Create a token: give it a name and pick a lifetime of **7 or 30 days**.
+   Copy the token - it is shown once and never stored in readable form.
+3. In your MCP client, add a Streamable HTTP server with URL
+   `https://agendaclock.com/mcp` and an `Authorization: Bearer <token>` header.
+
+Tools (all scoped to the token owner's own timelines):
+
+| Tool | What it does |
+| --- | --- |
+| `list_timelines` | List the timelines you own |
+| `get_timeline` | Get one of your timelines, with its full agenda |
+| `create_timeline` | Create a new timeline owned by you |
+| `update_timeline` | Edit a timeline you own (only sent fields change) |
+
+There is deliberately no delete tool: timelines cannot be deleted through MCP.
+A token only ever acts as the user who created it, only on timelines that
+user owns, and stops working when it expires (or when it is revoked on
+`/mcp/tokens`). Tokens are stored as SHA-256 digests in Redis with a native
+TTL, so expiry is enforced by Redis itself.

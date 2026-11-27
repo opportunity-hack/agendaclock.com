@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Manage your AgendaClock MCP access tokens.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="author" content="Greg Vanoni">
+
+    <title>MCP Access - AgendaClock</title>
+    <% include meeting_header %>
+  </head>
+  <body class="bg-light">
+
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <h2>MCP Access</h2>
+      <p class="lead">Let an AI assistant manage your meeting timelines through the AgendaClock MCP server.</p>
+      <p class="text-muted">Endpoint: <code><%= endpoint %></code></p>
+    </div>
+
+    <% if (error) { %>
+      <div class="alert alert-danger" role="alert"><%= error %></div>
+    <% } %>
+
+    <% if (newToken) { %>
+      <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Your token is ready - copy it now</h4>
+        <p>This is the only time the token is shown. It is not stored anywhere you can see again.</p>
+        <p><code id="new-token-secret" style="word-break: break-all;"><%= newToken.secret %></code></p>
+        <button class="btn btn-sm btn-outline-success" type="button" id="copy-token-btn">Copy token</button>
+        <p class="mb-0 mt-2"><small>Token "<%= newToken.name %>" expires on <%= new Date(newToken.expiresAt).toLocaleString() %> (<%= newToken.ttlDays %> days). Paste it into your MCP client as a Bearer token for <code><%= endpoint %></code>.</small></p>
+      </div>
+    <% } %>
+
+    <div class="row g-3">
+      <div class="col-md-5 col-lg-4 order-md-last">
+        <h4 class="mb-3">What MCP can do</h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item">List the timelines you own</li>
+          <li class="list-group-item">Get one of your timelines</li>
+          <li class="list-group-item">Create a new timeline for you</li>
+          <li class="list-group-item">Edit a timeline you own</li>
+          <li class="list-group-item text-muted">No delete: timelines cannot be deleted through MCP</li>
+        </ul>
+        <p class="text-muted"><small>Tokens only ever act as you (<%= user.email %>), only on timelines you own, and stop working when they expire. Revoke one any time below.</small></p>
+        <p><a href="/meeting/">Back to your timelines</a></p>
+      </div>
+
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Create a token</h4>
+        <form method="POST" action="/mcp/tokens" class="mb-4">
+          <div class="form-group">
+            <label for="token-name">Name</label>
+            <input type="text" class="form-control" id="token-name" name="name" maxlength="80" placeholder="e.g. Claude Desktop" required>
+            <small class="form-text text-muted">So you remember what this token is for.</small>
+          </div>
+          <div class="form-group">
+            <label>Lifetime</label>
+            <div>
+              <% allowedTtlDays.forEach(function(days) { %>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="ttl_days" id="ttl-<%= days %>" value="<%= days %>" <%= days === 30 ? 'checked' : '' %>>
+                  <label class="form-check-label" for="ttl-<%= days %>"><%= days %> days</label>
+                </div>
+              <% }); %>
+            </div>
+            <small class="form-text text-muted">The token stops working when it expires. Create a new one when you need it.</small>
+          </div>
+          <button class="btn btn-primary" type="submit">Create token</button>
+        </form>
+
+        <h4 class="mb-3">Your tokens</h4>
+        <% if (tokens.length === 0) { %>
+          <p class="text-muted">No tokens yet. Create one above.</p>
+        <% } else { %>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Created</th>
+                <th>Expires</th>
+                <th>Last used</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% tokens.forEach(function(t) { %>
+                <tr>
+                  <td><%= t.name %><br><small class="text-muted"><%= t.id %></small></td>
+                  <td><%= t.createdAt ? new Date(t.createdAt).toLocaleDateString() : '-' %></td>
+                  <td><%= t.expiresAt ? new Date(t.expiresAt).toLocaleDateString() : '-' %></td>
+                  <td><%= t.lastUsedAt ? new Date(t.lastUsedAt).toLocaleString() : 'Never' %></td>
+                  <td>
+                    <form method="POST" action="/mcp/tokens/<%= t.id %>/revoke" onsubmit="return confirm('Revoke this token? Any MCP client using it stops working immediately.');">
+                      <button class="btn btn-sm btn-outline-danger" type="submit">Revoke</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
+  </main>
+</div>
+
+  <% include meeting_footer %>
+  <script>
+    document.addEventListener('click', function(e) {
+      if (e.target && e.target.id === 'copy-token-btn') {
+        var secret = document.getElementById('new-token-secret').textContent;
+        navigator.clipboard.writeText(secret).then(function() {
+          e.target.textContent = 'Copied!';
+          setTimeout(function() { e.target.textContent = 'Copy token'; }, 2000);
+        });
+      }
+    });
+  </script>
+
+  </body>
+</html>

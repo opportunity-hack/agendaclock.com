@@ -54,6 +54,7 @@ usable as an OBS video overlay.
   - `routes/index.js` — homepage (login redirect), SEO landing pages, `/obs-setup` guide
   - `routes/meeting.js` — meeting CRUD + view rendering
   - `routes/auth.js` — Google OAuth (/auth/login, /auth/logout, /auth/google/*)
+  - `routes/mcp.js` — MCP server (`POST /mcp`, Streamable HTTP, stateless) + token pages (`/mcp/tokens`)
 
 ### View Modes (`GET /meeting/:id?view=...`)
 
@@ -82,6 +83,10 @@ Never duplicate time math in a view — use the engine.
 
 - **Redis**: flat JSON per meeting. Private key `meeting_{owner_email}_{id}`;
   public copy `public_meeting_{id}` mirrored when `is_public` is on.
+- **MCP tokens** (`lib/mcpTokens.js`): `mcp_token:<sha256(secret)>` hash
+  (`email`, `name`, `createdAt`, `expiresAt`, `lastUsedAt`) with a native TTL
+  of 7 or 30 days, plus a `mcp_tokens:<email>` set for listing/revoking.
+  Only the digest is stored; the secret is shown once at creation.
 - **Access rules**: public meetings render WITHOUT login; private links redirect
   logged-out visitors to login (returnTo preserved). `POST /meeting/:id` refuses
   to overwrite a `public_meeting_*` owned by someone else (403) and
@@ -121,6 +126,21 @@ public) → POST seeds a starter agenda row → redirects into the editor.
   tuned to GSC query data; keep ≤60 chars. `/auth/*` responses send
   `X-Robots-Tag: noindex` (robots.txt intentionally does NOT block /auth/ so
   crawlers can see the header; `/meeting/` stays disallowed).
+
+### MCP server (`routes/mcp.js`, `lib/mcpTokens.js`, `lib/meetings.js`)
+
+`POST /mcp` is a Streamable HTTP MCP endpoint (official
+`@modelcontextprotocol/sdk`, stateless: one `McpServer` per request).
+Auth is a Bearer MCP token issued on `/mcp/tokens` to a Google-signed-in
+user, lifetime 7 or 30 days, enforced by the Redis TTL. Tools:
+`list_timelines`, `get_timeline`, `create_timeline`, `update_timeline` —
+all scoped to the token owner's meetings via `loadOwnedMeeting()` (a
+meeting counts as yours when your private key exists or the public copy's
+`owner_email` is you; anything else reads as "not found"). There is
+deliberately NO delete tool. Tools reuse `validateMeetingPayload()` from
+`lib/meetings.js`, so MCP and the web editor enforce identical rules.
+`/mcp/*` sends `X-Robots-Tag: noindex` and is disallowed in robots.txt; it
+is not an SEO page, so it stays out of the sitemap and footer nav.
 
 ### OBS Integration
 
