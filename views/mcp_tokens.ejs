@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Manage your AgendaClock MCP access tokens.">
+    <meta name="description" content="Connect your AI assistant to AgendaClock so it can build and update your meeting timelines for you.">
     <meta name="robots" content="noindex, nofollow">
     <meta name="author" content="Greg Vanoni">
 
-    <title>MCP Access - AgendaClock</title>
+    <title>Connect your AI assistant - AgendaClock</title>
     <% include meeting_header %>
   </head>
   <body class="bg-light">
@@ -15,9 +15,40 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-      <h2>MCP Access</h2>
-      <p class="lead">Let an AI assistant manage your meeting timelines through the AgendaClock MCP server.</p>
-      <p class="text-muted">Endpoint: <code><%= endpoint %></code></p>
+      <h2>Connect your AI assistant</h2>
+      <p class="lead">Describe your meeting in plain words and let your AI assistant (Claude, ChatGPT, Cursor and others) build the timeline for you. No typing agenda rows by hand.</p>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>What is this?</h5>
+            <p>Normally your AI assistant can't see or change anything in AgendaClock. A <strong>token</strong> is a temporary password you hand to your assistant so it can work on your timelines for you. The connection it uses is called <strong>MCP</strong>, a standard way for AI tools to plug into apps. You don't need to understand it: you only paste two things into your AI tool.</p>
+            <h5>Why would I want it?</h5>
+            <ul class="mb-md-0">
+              <li>Turn a pasted agenda, email or doc into a timed timeline in seconds</li>
+              <li>Change things by asking, instead of clicking through the editor</li>
+              <li>Reuse last week's meeting as a starting point</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h5>Things you can say once connected</h5>
+            <ul>
+              <li>"Make a 45-minute team standup for 9:00 AM Phoenix time: 5 min intros, 30 min updates, 10 min wrap-up."</li>
+              <li>"Here's my agenda from this email. Turn it into an AgendaClock timeline and give me the link."</li>
+              <li>"Move Thursday's kickoff to 2:30 PM and give the demo 10 more minutes."</li>
+              <li>"Show my timelines."</li>
+            </ul>
+            <h5>How to connect (about 2 minutes)</h5>
+            <ol class="mb-0">
+              <li><strong>Create a token</strong> below and copy it.</li>
+              <li><strong>Click "Copy everything for my agent"</strong> and paste it to your AI agent (Muse, Claude and others). It sets itself up.</li>
+              <li><strong>Ask for what you want.</strong> Prefer doing it by hand? The address is <code><%= endpoint %></code>.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
     </div>
 
     <% if (error) { %>
@@ -30,21 +61,61 @@
         <p>This is the only time the token is shown. It is not stored anywhere you can see again.</p>
         <p><code id="new-token-secret" style="word-break: break-all;"><%= newToken.secret %></code></p>
         <button class="btn btn-sm btn-outline-success" type="button" id="copy-token-btn">Copy token</button>
-        <p class="mb-0 mt-2"><small>Token "<%= newToken.name %>" expires on <%= new Date(newToken.expiresAt).toLocaleString() %> (<%= newToken.ttlDays %> days). Paste it into your MCP client as a Bearer token for <code><%= endpoint %></code>.</small></p>
+        <p class="mb-0 mt-2"><small>Token "<%= newToken.name %>" expires on <%= new Date(newToken.expiresAt).toLocaleString() %> (<%= newToken.ttlDays %> days). </small></p>
+        <hr>
+        <h5>Easiest: hand it to your AI agent (Muse and others)</h5>
+        <p class="mb-2">Copy this whole message and paste it to your agent. It has everything the agent needs to connect by itself.</p>
+        <pre id="agent-setup" class="bg-white border rounded p-2" style="white-space: pre-wrap; word-break: break-word;">Please connect to my AgendaClock account so you can create and edit my meeting timelines.
+
+AgendaClock has an MCP server (Streamable HTTP). Add it as an MCP server / connector with:
+- Name: agendaclock
+- URL: <%= endpoint %>
+- HTTP header: Authorization: Bearer <%= newToken.secret %>
+
+If you set up MCP servers with a command, run:
+claude mcp add --transport http agendaclock <%= endpoint %> --header "Authorization: Bearer <%= newToken.secret %>"
+
+If you use a JSON settings file, add:
+{"mcpServers":{"agendaclock":{"url":"<%= endpoint %>","headers":{"Authorization":"Bearer <%= newToken.secret %>"}}}}
+
+Tools available: list_timelines, get_timeline, create_timeline, update_timeline (no delete).
+This token is a secret: store it only in your MCP settings and do not repeat it back to me. It expires on <%= new Date(newToken.expiresAt).toDateString() %>.
+When connected, call list_timelines and tell me what you find.</pre>
+        <button class="btn btn-success mb-3" type="button" data-copy="agent-setup">Copy everything for my agent</button>
+
+        <details class="mb-2">
+          <summary>Claude Code: one command for your terminal</summary>
+          <pre id="cmd-claude" class="bg-white border rounded p-2 mt-2" style="white-space: pre-wrap; word-break: break-all;">claude mcp add --transport http agendaclock <%= endpoint %> --header "Authorization: Bearer <%= newToken.secret %>"</pre>
+          <button class="btn btn-sm btn-outline-success" type="button" data-copy="cmd-claude">Copy command</button>
+        </details>
+        <details class="mb-2">
+          <summary>Cursor and other tools that use a settings file</summary>
+          <pre id="cmd-json" class="bg-white border rounded p-2 mt-2" style="white-space: pre-wrap; word-break: break-all;">{
+  "mcpServers": {
+    "agendaclock": {
+      "url": "<%= endpoint %>",
+      "headers": { "Authorization": "Bearer <%= newToken.secret %>" }
+    }
+  }
+}</pre>
+          <button class="btn btn-sm btn-outline-success" type="button" data-copy="cmd-json">Copy settings</button>
+        </details>
+        <p class="mb-0"><small>Setting it up by hand? The address is <code><%= endpoint %></code>, the header name is <code>Authorization</code> and the value is <code>Bearer</code>, a space, then your token.</small></p>
       </div>
     <% } %>
 
     <div class="row g-3">
       <div class="col-md-5 col-lg-4 order-md-last">
-        <h4 class="mb-3">What MCP can do</h4>
+        <h4 class="mb-3">What your assistant can do</h4>
         <ul class="list-group mb-3">
-          <li class="list-group-item">List the timelines you own</li>
-          <li class="list-group-item">Get one of your timelines</li>
+          <li class="list-group-item">See the list of your timelines</li>
+          <li class="list-group-item">Read one of your timelines</li>
           <li class="list-group-item">Create a new timeline for you</li>
-          <li class="list-group-item">Edit a timeline you own</li>
-          <li class="list-group-item text-muted">No delete: timelines cannot be deleted through MCP</li>
+          <li class="list-group-item">Change a timeline you own (title, time, agenda, look)</li>
+          <li class="list-group-item text-muted">It can never delete a timeline</li>
         </ul>
-        <p class="text-muted"><small>Tokens only ever act as you (<%= user.email %>), only on timelines you own, and stop working when they expire. Revoke one any time below.</small></p>
+        <h5>Is it safe?</h5>
+        <p class="text-muted"><small>A token only works on your own timelines (<%= user.email %>). It can't see your Google account, email or anyone else's meetings. It stops working by itself when it expires, and you can switch it off any time with Revoke. Treat it like a password: only paste it into AI tools you trust.</small></p>
         <p><a href="/meeting/">Back to your timelines</a></p>
       </div>
 
@@ -53,11 +124,11 @@
         <form method="POST" action="/mcp/tokens" class="mb-4">
           <div class="form-group">
             <label for="token-name">Name</label>
-            <input type="text" class="form-control" id="token-name" name="name" maxlength="80" placeholder="e.g. Claude Desktop" required>
-            <small class="form-text text-muted">So you remember what this token is for.</small>
+            <input type="text" class="form-control" id="token-name" name="name" maxlength="80" placeholder="e.g. Claude on my laptop" required>
+            <small class="form-text text-muted">A label for you, so you remember which AI tool uses this token.</small>
           </div>
           <div class="form-group">
-            <label>Lifetime</label>
+            <label>How long should it work?</label>
             <div>
               <% allowedTtlDays.forEach(function(days) { %>
                 <div class="form-check form-check-inline">
@@ -66,7 +137,7 @@
                 </div>
               <% }); %>
             </div>
-            <small class="form-text text-muted">The token stops working when it expires. Create a new one when you need it.</small>
+            <small class="form-text text-muted">After this it switches itself off. Come back here and create a new one whenever you need it.</small>
           </div>
           <button class="btn btn-primary" type="submit">Create token</button>
         </form>
@@ -93,7 +164,7 @@
                   <td><%= t.expiresAt ? new Date(t.expiresAt).toLocaleDateString() : '-' %></td>
                   <td><%= t.lastUsedAt ? new Date(t.lastUsedAt).toLocaleString() : 'Never' %></td>
                   <td>
-                    <form method="POST" action="/mcp/tokens/<%= t.id %>/revoke" onsubmit="return confirm('Revoke this token? Any MCP client using it stops working immediately.');">
+                    <form method="POST" action="/mcp/tokens/<%= t.id %>/revoke" onsubmit="return confirm('Revoke this token? Any AI tool using it stops working immediately.');">
                       <button class="btn btn-sm btn-outline-danger" type="submit">Revoke</button>
                     </form>
                   </td>
@@ -110,13 +181,15 @@
   <% include meeting_footer %>
   <script>
     document.addEventListener('click', function(e) {
-      if (e.target && e.target.id === 'copy-token-btn') {
-        var secret = document.getElementById('new-token-secret').textContent;
-        navigator.clipboard.writeText(secret).then(function() {
-          e.target.textContent = 'Copied!';
-          setTimeout(function() { e.target.textContent = 'Copy token'; }, 2000);
-        });
-      }
+      var btn = e.target;
+      if (!btn) return;
+      var targetId = btn.id === 'copy-token-btn' ? 'new-token-secret' : btn.getAttribute && btn.getAttribute('data-copy');
+      if (!targetId) return;
+      var label = btn.textContent;
+      navigator.clipboard.writeText(document.getElementById(targetId).textContent.trim()).then(function() {
+        btn.textContent = 'Copied!';
+        setTimeout(function() { btn.textContent = label; }, 2000);
+      });
     });
   </script>
 
