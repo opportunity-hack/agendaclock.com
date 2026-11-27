@@ -114,14 +114,21 @@ function registerTools(server, ownerEmail) {
     },
     async (args) => {
       await ensureRedisConnection();
-      const meetingId = get_short_hash();
       const body = toolInputToFormBody(null, args);
       const { ok, errors, meetingData } = validateMeetingPayload(body);
       if (!ok) return errResult('Invalid meeting data', errors);
-      meetingData.meeting_id = meetingId;
       meetingData.owner_email = ownerEmail;
       meetingData.is_public = args.is_public === true;
-      await saveMeeting(client, meetingData);
+      // A fresh id must not land on an id already in use: by the caller
+      // (private key) or by anyone's public copy (saveMeeting refuses).
+      let meetingId = null;
+      for (let attempt = 0; attempt < 3 && !meetingId; attempt++) {
+        const candidate = get_short_hash();
+        if (await loadOwnedMeeting(client, ownerEmail, candidate)) continue;
+        meetingData.meeting_id = candidate;
+        if (await saveMeeting(client, meetingData)) meetingId = candidate;
+      }
+      if (!meetingId) return errResult('Could not allocate a meeting id, try again');
       return okResult({
         timeline: toMeetingSummary(meetingData),
         url: meetingUrl(meetingId)
@@ -158,7 +165,9 @@ function registerTools(server, ownerEmail) {
       meetingData.is_public = changes.is_public !== undefined
         ? changes.is_public === true
         : (existing.is_public === true || existing.is_public === 'on');
-      await saveMeeting(client, meetingData);
+      if (!(await saveMeeting(client, meetingData))) {
+        return errResult('This meeting id belongs to someone else');
+      }
       return okResult({
         timeline: toMeetingSummary(meetingData),
         url: meetingUrl(meeting_id)
@@ -185,6 +194,7 @@ router.post('/', async (req, res) => {
     });
   }
   if (!tokenRecord) {
+    res.set('WWW-Authenticate', 'Bearer realm="agendaclock-mcp"');
     return res.status(401).json({
       jsonrpc: '2.0',
       error: { code: -32001, message: 'Missing or invalid MCP token. Create one at /mcp/tokens while signed in.' },
@@ -199,6 +209,11 @@ router.post('/', async (req, res) => {
     );
     registerTools(server, tokenRecord.email);
     const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
+    // Stateless: one server + transport per request, released when it ends.
+    res.on('close', () => {
+      transport.close().catch(() => {});
+      server.close().catch(() => {});
+    });
     await server.connect(transport);
     await transport.handleRequest(req, res, req.body);
   } catch (err) {

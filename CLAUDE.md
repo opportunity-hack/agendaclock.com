@@ -139,6 +139,8 @@ meeting counts as yours when your private key exists or the public copy's
 `owner_email` is you; anything else reads as "not found"). There is
 deliberately NO delete tool. Tools reuse `validateMeetingPayload()` from
 `lib/meetings.js`, so MCP and the web editor enforce identical rules.
+`saveMeeting()` returns false (writes nothing) when `public_meeting_<id>`
+belongs to someone else — same guard as `POST /meeting/:id`; always check it.
 `/mcp/*` sends `X-Robots-Tag: noindex` and is disallowed in robots.txt; it
 is not an SEO page, so it stays out of the sitemap and footer nav.
 
