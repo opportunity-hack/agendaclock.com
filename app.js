@@ -8,6 +8,7 @@ const session = require('express-session');
 const route_index = require('./routes/index');
 const route_meeting = require('./routes/meeting');
 const route_auth = require('./routes/auth');
+const route_mcp = require('./routes/mcp');
 const { passport } = require('./config/auth');
 
 const app = express();
@@ -43,6 +44,9 @@ app.use((req, res, next) => {
 // Routes
 app.use('/auth', route_auth);
 app.use('/meeting', route_meeting);
+// MCP endpoint + token pages. Mounted before the canonicalization middleware
+// below (which only 301s GET/HEAD, but /mcp/* must never be rewritten).
+app.use('/mcp', route_mcp);
 // SEO canonicalization: content pages live at slash-less URLs. Trailing-slash
 // duplicates returned 200 (splitting ranking signals in Search Console), and
 // the retired timed-agenda slug 404'd. 301 both to the canonical URL.

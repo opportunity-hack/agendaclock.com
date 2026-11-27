@@ -14,6 +14,7 @@ Allow: /ja
 
 # Disallow authenticated user areas (auth pages served with X-Robots-Tag: noindex)
 Disallow: /meeting/
+Disallow: /mcp/
 
 # Sitemap location
 Sitemap: https://agendaclock.com/sitemap.xml
