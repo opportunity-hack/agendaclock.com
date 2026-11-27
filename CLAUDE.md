@@ -145,7 +145,7 @@ belongs to someone else — same guard as `POST /meeting/:id`; always check it.
 is not an SEO page, so it stays out of the sitemap and footer nav.
 `views/mcp_tokens.ejs` copy targets non-technical users ("Connect your AI
 assistant": what/why/example prompts/3 steps); after token creation it shows
-a one-click "Copy everything for my agent" message (for Muse-style agents) plus per-client snippets, secret filled in. Keep it jargon-light.
+a one-click "Copy everything for my agent" message (for Muse-style agents) plus per-client snippets, secret filled in. Keep it jargon-light and idiom-free (users rely on browser auto-translate); machine text (`<code>`/`<pre>`) carries `translate="no"`.
 
 ### OBS Integration
 

@@ -16,7 +16,7 @@
   <main>
     <div class="py-5 text-center">
       <h2>Connect your AI assistant</h2>
-      <p class="lead">Describe your meeting in plain words and let your AI assistant (Claude, ChatGPT, Cursor and others) build the timeline for you. No typing agenda rows by hand.</p>
+      <p class="lead">Describe your meeting in plain words and let your AI assistant (Claude, ChatGPT, Cursor and others) create the timeline for you. You do not need to type each agenda item yourself.</p>
     </div>
 
     <div class="card mb-4">
@@ -24,27 +24,27 @@
         <div class="row">
           <div class="col-md-6">
             <h5>What is this?</h5>
-            <p>Normally your AI assistant can't see or change anything in AgendaClock. A <strong>token</strong> is a temporary password you hand to your assistant so it can work on your timelines for you. The connection it uses is called <strong>MCP</strong>, a standard way for AI tools to plug into apps. You don't need to understand it: you only paste two things into your AI tool.</p>
+            <p>Normally your AI assistant can't see or change anything in AgendaClock. A <strong>token</strong> is a temporary password that you give to your assistant. With it, the assistant can create and change your timelines. The connection it uses is called <strong>MCP</strong>, a standard way for AI tools to plug into apps. You do not need to understand how it works. You only copy one message and paste it into your AI tool.</p>
             <h5>Why would I want it?</h5>
             <ul class="mb-md-0">
-              <li>Turn a pasted agenda, email or doc into a timed timeline in seconds</li>
-              <li>Change things by asking, instead of clicking through the editor</li>
-              <li>Reuse last week's meeting as a starting point</li>
+              <li>Convert an agenda, email or document into a timed timeline very quickly</li>
+              <li>Make changes by asking your assistant, without using the editor</li>
+              <li>Start a new meeting from a copy of an earlier meeting</li>
             </ul>
           </div>
           <div class="col-md-6">
             <h5>Things you can say once connected</h5>
             <ul>
               <li>"Make a 45-minute team standup for 9:00 AM Phoenix time: 5 min intros, 30 min updates, 10 min wrap-up."</li>
-              <li>"Here's my agenda from this email. Turn it into an AgendaClock timeline and give me the link."</li>
-              <li>"Move Thursday's kickoff to 2:30 PM and give the demo 10 more minutes."</li>
+              <li>"Here is my agenda from this email. Create an AgendaClock timeline from it and give me the link."</li>
+              <li>"Change the start time of Thursday's kickoff meeting to 2:30 PM and add 10 minutes to the demo."</li>
               <li>"Show my timelines."</li>
             </ul>
             <h5>How to connect (about 2 minutes)</h5>
             <ol class="mb-0">
               <li><strong>Create a token</strong> below and copy it.</li>
-              <li><strong>Click "Copy everything for my agent"</strong> and paste it to your AI agent (Muse, Claude and others). It sets itself up.</li>
-              <li><strong>Ask for what you want.</strong> Prefer doing it by hand? The address is <code><%= endpoint %></code>.</li>
+              <li><strong>Click "Copy everything for my agent"</strong> and paste it to your AI agent (Muse, Claude and others). The agent completes the setup.</li>
+              <li><strong>Ask for what you want.</strong> To set it up manually, use this address: <code translate="no"><%= endpoint %></code>.</li>
             </ol>
           </div>
         </div>
@@ -59,13 +59,13 @@
       <div class="alert alert-success" role="alert">
         <h4 class="alert-heading">Your token is ready - copy it now</h4>
         <p>This is the only time the token is shown. It is not stored anywhere you can see again.</p>
-        <p><code id="new-token-secret" style="word-break: break-all;"><%= newToken.secret %></code></p>
+        <p><code translate="no" id="new-token-secret" style="word-break: break-all;"><%= newToken.secret %></code></p>
         <button class="btn btn-sm btn-outline-success" type="button" id="copy-token-btn">Copy token</button>
         <p class="mb-0 mt-2"><small>Token "<%= newToken.name %>" expires on <%= new Date(newToken.expiresAt).toLocaleString() %> (<%= newToken.ttlDays %> days). </small></p>
         <hr>
-        <h5>Easiest: hand it to your AI agent (Muse and others)</h5>
-        <p class="mb-2">Copy this whole message and paste it to your agent. It has everything the agent needs to connect by itself.</p>
-        <pre id="agent-setup" class="bg-white border rounded p-2" style="white-space: pre-wrap; word-break: break-word;">Please connect to my AgendaClock account so you can create and edit my meeting timelines.
+        <h5>Easiest way: give it to your AI agent (Muse and others)</h5>
+        <p class="mb-2">Copy this whole message and paste it to your agent. It contains everything the agent needs to connect. The message is in English so that any agent can read it. Do not translate it.</p>
+        <pre translate="no" id="agent-setup" class="bg-white border rounded p-2" style="white-space: pre-wrap; word-break: break-word;">Please connect to my AgendaClock account so you can create and edit my meeting timelines.
 
 AgendaClock has an MCP server (Streamable HTTP). Add it as an MCP server / connector with:
 - Name: agendaclock
@@ -85,12 +85,12 @@ When connected, call list_timelines and tell me what you find.</pre>
 
         <details class="mb-2">
           <summary>Claude Code: one command for your terminal</summary>
-          <pre id="cmd-claude" class="bg-white border rounded p-2 mt-2" style="white-space: pre-wrap; word-break: break-all;">claude mcp add --transport http agendaclock <%= endpoint %> --header "Authorization: Bearer <%= newToken.secret %>"</pre>
+          <pre translate="no" id="cmd-claude" class="bg-white border rounded p-2 mt-2" style="white-space: pre-wrap; word-break: break-all;">claude mcp add --transport http agendaclock <%= endpoint %> --header "Authorization: Bearer <%= newToken.secret %>"</pre>
           <button class="btn btn-sm btn-outline-success" type="button" data-copy="cmd-claude">Copy command</button>
         </details>
         <details class="mb-2">
           <summary>Cursor and other tools that use a settings file</summary>
-          <pre id="cmd-json" class="bg-white border rounded p-2 mt-2" style="white-space: pre-wrap; word-break: break-all;">{
+          <pre translate="no" id="cmd-json" class="bg-white border rounded p-2 mt-2" style="white-space: pre-wrap; word-break: break-all;">{
   "mcpServers": {
     "agendaclock": {
       "url": "<%= endpoint %>",
@@ -100,7 +100,7 @@ When connected, call list_timelines and tell me what you find.</pre>
 }</pre>
           <button class="btn btn-sm btn-outline-success" type="button" data-copy="cmd-json">Copy settings</button>
         </details>
-        <p class="mb-0"><small>Setting it up by hand? The address is <code><%= endpoint %></code>, the header name is <code>Authorization</code> and the value is <code>Bearer</code>, a space, then your token.</small></p>
+        <p class="mb-0"><small>To set it up manually: the address is <code translate="no"><%= endpoint %></code>, the header name is <code translate="no">Authorization</code> and the value is <code translate="no">Bearer</code>, a space, then your token.</small></p>
       </div>
     <% } %>
 
@@ -111,11 +111,11 @@ When connected, call list_timelines and tell me what you find.</pre>
           <li class="list-group-item">See the list of your timelines</li>
           <li class="list-group-item">Read one of your timelines</li>
           <li class="list-group-item">Create a new timeline for you</li>
-          <li class="list-group-item">Change a timeline you own (title, time, agenda, look)</li>
+          <li class="list-group-item">Change a timeline you own (title, time, agenda, appearance)</li>
           <li class="list-group-item text-muted">It can never delete a timeline</li>
         </ul>
         <h5>Is it safe?</h5>
-        <p class="text-muted"><small>A token only works on your own timelines (<%= user.email %>). It can't see your Google account, email or anyone else's meetings. It stops working by itself when it expires, and you can switch it off any time with Revoke. Treat it like a password: only paste it into AI tools you trust.</small></p>
+        <p class="text-muted"><small>A token only works on your own timelines (<%= user.email %>). It can't see your Google account, email or anyone else's meetings. It stops working automatically on its expiry date, and you can disable it at any time with the Revoke button. Keep it secret like a password, and only paste it into AI tools that you trust.</small></p>
         <p><a href="/meeting/">Back to your timelines</a></p>
       </div>
 
@@ -137,7 +137,7 @@ When connected, call list_timelines and tell me what you find.</pre>
                 </div>
               <% }); %>
             </div>
-            <small class="form-text text-muted">After this it switches itself off. Come back here and create a new one whenever you need it.</small>
+            <small class="form-text text-muted">After this time the token stops working automatically. You can return to this page and create a new one at any time.</small>
           </div>
           <button class="btn btn-primary" type="submit">Create token</button>
         </form>
